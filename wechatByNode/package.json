@@ -4,10 +4,15 @@
   "description": "使用 Node.js开发微信",
   "main": "app.js",
   "dependencies": {
-    "express": "^4.15.3",
+    "body-parser": "^1.18.3",
+    "mysql": "^2.16.0",
+    "mysql2": "^1.6.5",
+    "sequelize": "^5.1.0",
     "xml2js": "^0.4.17"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "typescript": "^3.3.3333"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
