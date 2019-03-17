@@ -1,27 +1,29 @@
-const express = require('express'), //express 框架 
-      wechat  = require('./wechat/wechat'), 
-       config = require('./config');//引入配置文件
-       
-var app = express();//实例express框架
+const express = require('express');
+const app = express();//实例express框架
+const sqldb = require('./sqldb');
+const router = require('./routes/index.js');
 
-var wechatApp = new wechat(config); //实例wechat 模块
-
-//用于处理所有进入 3000 端口 get 的连接请求
-app.get('/',function(req,res){
-    wechatApp.auth(req,res);
+ 
+app.all('*', (req, res, next) => {
+  const { origin, Origin, referer, Referer } = req.headers;
+  const allowOrigin = origin || Origin || referer || Referer || '*';
+	res.header("Access-Control-Allow-Origin", allowOrigin);
+	res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
+	res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
+  res.header("Access-Control-Allow-Credentials", true); //可以带cookies
+	res.header("X-Powered-By", 'Express');
+	if (req.method == 'OPTIONS') {
+  	res.sendStatus(200);
+	} else {
+    next();
+	}
 });
 
-//用于处理所有进入 3000 端口 post 的连接请求
-app.post('/',function(req,res){
-    wechatApp.handleMsg(req,res);
+sqldb.sequelize.sync({force: false}).then(function() {
+  router(app)
+  //监听3000端口
+  app.listen(3000); 
+    console.log("Server successed to start");
+}).catch(function(err){
+    console.log("Server failed to start due to error: %s", err);
 });
-
-//用于请求获取 access_token
-app.get('/getAccessToken',function(req,res){
-    wechatApp.getAccessToken().then(function(data){
-        res.send(data);
-    });    
-});
-
-//监听3000端口
-app.listen(3000);

@@ -77,3 +77,6 @@
 
     ![微信接收事件消息](http://img.blog.csdn.net/20170608160434723?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaHZrQ29kZXI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 
+
+    测试接口: http://127.0.0.1:3000/admin/login   method: post
+
