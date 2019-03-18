@@ -3,8 +3,8 @@
 var all = {
     sequelize:{
         username: 'root',
-        password: 'abc@123',
-        database: 'admin',
+        password: 'root',
+        database: 'test',
         host: "localhost",
         dialect: 'mysql',
         define: {
