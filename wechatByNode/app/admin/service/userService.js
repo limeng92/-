@@ -27,5 +27,29 @@ class UserService {
             throw err
         }
     }
+    login () {
+        try {
+            return db.sequelize.transaction(function(t){
+                return Test.findOne({userName: 'test',passWord: 'test'},{
+                    transaction:t
+                }).then(function(result){
+                   if (result) {
+                        let token = jwt.sign(user,app.get('superSecret'),{
+                            expiresIn: 60*60*24
+                        })
+                        return {
+                            success: true,
+                            message: '请使用你的授权码',
+                            token: token
+                        }
+                   }
+                }).catch(function(err){
+                    console.log("发生错误：" + err);
+                });
+            })
+        } catch (err) {
+
+        }
+    }
 }
 module.exports = new UserService()

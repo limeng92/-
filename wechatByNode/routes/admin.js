@@ -1,9 +1,10 @@
 'use strict';
 const express = require('express')
 const Admin = require('../app/admin/controller/userController')
+const checkAdmin = require('../middlewares/checkAdmin')
 const router = express.Router()
 
-router.post('/login', Admin.login);
+router.post('/login',checkAdmin.checkAdmin, Admin.login);
 // router.post('/register', Admin.register);
 router.get('/singout', Admin.singout);
 
