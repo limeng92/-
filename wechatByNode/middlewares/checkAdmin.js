@@ -6,7 +6,6 @@ class Check {
 		
 	}
 	async checkAdmin(req, res, next){
-		console.log('check Admin>>>>>>')
 		next()
 	}
 	async verifyToken (req,res,next) {
