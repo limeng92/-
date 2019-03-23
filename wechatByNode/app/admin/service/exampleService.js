@@ -1,21 +1,27 @@
 const db = require('../../../sqldb');
+const sequelize = require('sequelize');
 var Example = db.Example;
 class ExampleService {
     constructor() {}
     async list (req, res, next) {
         try {
-            let data = req.body.data
-            await Example.findAll({
-                where: {
-                  offset: data.page,
-                  limit: data.limit,
-                  order: 'id DESC'
-                }
+            let data = req.query
+            let rows = await Example.findAll({
+                offset: (Number(data.page)-1)*Number(data.limit),
+                limit: Number(data.limit),
+                order: sequelize.literal('id DESC')
             }).then((result)=> {
                 return result
             }).catch((err)=> {
-                return err
+                throw err
             });
+            let total = await Example.count().then((result)=> {
+                return result
+            })
+            return {
+                data: rows,
+                total: total
+            }
         }catch (err) {
             throw err
         }
@@ -24,8 +30,7 @@ class ExampleService {
         try {
             let data = req.body.data
         
-            return db.sequelize.transaction(function(t){
-                console.log("+++++++++++++++++++");
+            let result = db.sequelize.transaction(function(t){
                 return Example.create(data,{
                     transaction:t
                 }).then(function(result){
@@ -34,6 +39,7 @@ class ExampleService {
                     throw err
                 });
             })
+            return result
         }catch (err) {
             throw err
         }

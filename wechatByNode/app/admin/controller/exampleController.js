@@ -4,6 +4,7 @@ class ExampleController {
     async list (req, res, next) {
         try {
             let result = await exampleService.list(req, res, next)
+            console.log(result)
             res.send(result)  
         }catch (err) {
             console.log(err)
