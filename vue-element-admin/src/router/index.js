@@ -7,8 +7,7 @@ Vue.use(Router)
 import Layout from '@/views/layout/Layout'
 
 /* Router Modules */
-import tableRouter from './modules/table'
-import treeTableRouter from './modules/tree-table'
+import exampleRouter from './modules/example'
 
 /** note: sub-menu only appear when children.length>=1
  *  detail see  https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
@@ -69,8 +68,7 @@ export default new Router({
 
 export const asyncRouterMap = [
   /** When your routing table is too long, you can split it into small modules**/
-  tableRouter,
-  treeTableRouter,
+  exampleRouter,
 
   { path: '*', redirect: '/404', hidden: true }
 ]
