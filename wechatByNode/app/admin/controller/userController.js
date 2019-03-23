@@ -3,12 +3,8 @@ class UserController {
     constructor () {}
     async login (req, res, next) {
         try {
-            let re = await userService.getUserInfo(req)
-            console.log(re)
-            res.send({
-                status: 1,
-                success: '登录成功'
-            })
+            let result = await userService.login(req, res, next)
+            res.send(result)  
         }catch (err) {
             console.log(err)
             res.send({
@@ -18,8 +14,17 @@ class UserController {
             })
         }
     }
-    async singout () {
-
+    async userInfo (req, res, next) {
+        try {
+            let result = await userService.getUserInfo(req, res, next)
+            res.send(result)
+        } catch (err) {
+            res.send({
+                status: 0,
+                type: 'USER_INFO_FAILED',
+                message: err,
+            })
+        }
     }
 
 }

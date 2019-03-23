@@ -7,7 +7,10 @@ module.exports = function(sequelize,DataTypes){
             allowNull:false,
             defaultValue:DataTypes.UUIDV1
         },
-        name:{
+        username:{
+            type:DataTypes.STRING
+        },
+        password: {
             type:DataTypes.STRING
         },
         age:{
