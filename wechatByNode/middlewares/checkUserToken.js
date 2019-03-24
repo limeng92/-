@@ -5,11 +5,6 @@ class checkUserToken {
     async checkUser(req, res, next) {
         //获取token
         let token = req.body.token || req.query.token || req.headers['x-token'];
-        // if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
-        //     token = req.headers.authorization.split(' ')[1];
-        // } else if (req.body && req.body.token) {
-        //     token = req.body.token;
-        // }
 
         let secretOrPrivateKey="suiyi"; // 这是加密的key（密钥）
 
