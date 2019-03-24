@@ -8,7 +8,7 @@ class ExampleController {
             res.send(result)  
         }catch (err) {
             console.log(err)
-            res.send({
+            res.status(500).send({
                 status: -1,
                 type: '',
                 message: '查询失败',
@@ -21,7 +21,7 @@ class ExampleController {
             res.send(result)  
         }catch (err) {
             console.log(err)
-            res.send({
+            res.status(500).send({
                 status: -1,
                 type: '',
                 message: '查询失败',
@@ -34,7 +34,7 @@ class ExampleController {
             res.send(result)  
         }catch (err) {
             console.log(err)
-            res.send({
+            res.status(500).send({
                 status: -1,
                 type: '',
                 message: '查询失败',
@@ -47,7 +47,7 @@ class ExampleController {
             res.send(result)  
         }catch (err) {
             console.log(err)
-            res.send({
+            res.status(500).send({
                 status: -1,
                 type: '',
                 message: '更新失败',
@@ -60,7 +60,7 @@ class ExampleController {
             res.send(result)  
         }catch (err) {
             console.log(err)
-            res.send({
+            res.status(500).send({
                 status: -1,
                 type: '',
                 message: '删除失败',

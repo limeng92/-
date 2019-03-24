@@ -46,26 +46,29 @@ class ExampleService {
     }
     async show (req, res, next) {
         try {
-            let data = req.body.data
-            await Example.findOne({
-                where: data.where
+            let data = req.query
+            let result = await Example.findOne({
+                where: {id: data.id}
             }).then((result)=> {
                 return result
             }).catch((err)=> {
                 throw err
             });
+            return result
         } catch (err) {
             throw err
         }
     }
     async update (req, res, next) {
         try {
-            let data = req.body.data
-            await Example.update(data.updateParams, data.where).then((result)=> {
+            let data = JSON.parse(req.query.data)
+            let where = {where: {id: data.id}}
+            let result = await Example.update(data,where).then((result)=> {
                 return result
             }).catch((err)=> {
                 throw err
             });
+            return result
         }catch (err) {
             throw err
         }
@@ -73,11 +76,12 @@ class ExampleService {
     async delete (req, res, next) {
         try {
             let data = req.body.data
-            await destroy({where: data.where}).then((result)=> {
+            let result = await destroy({where: data.where}).then((result)=> {
                 return result
             }).catch((err)=>{
                 throw err
             })
+            return result
         }catch (err) {
             throw err
         }

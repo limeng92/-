@@ -42,7 +42,7 @@
 
       <el-table-column align="center" label="操作" width="240">
         <template slot-scope="scope">
-          <el-button type="primary" size="small" icon="el-icon-edit" @click="editRow(scope.row)">修改</el-button>
+          <el-button type="primary" size="small" icon="el-icon-edit" @click="editRow(scope.row.id)">修改</el-button>
           <el-button type="warning" size="small" icon="el-icon-delete" @click="deleteRow(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
@@ -51,16 +51,23 @@
 
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
 
+    <el-dialog
+      :visible.sync="dialogVisible"
+      :title="isEdit?'查看':'创建'"
+      width="50%">
+      <detail-form :id="id" :is-edit="isEdit" @closeFun="closeFun"/>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { fetchList } from '@/api/example'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
+import detailForm from './detailForm'
 
 export default {
   name: 'ArticleList',
-  components: { Pagination },
+  components: { Pagination, detailForm },
   filters: {
     statusFilter(status) {
       const statusMap = {
@@ -76,6 +83,9 @@ export default {
       list: null,
       total: 0,
       listLoading: true,
+      dialogVisible: false,
+      isEdit: false,
+      id: '',
       listQuery: {
         page: 1,
         limit: 20
@@ -102,11 +112,20 @@ export default {
       this.listQuery.page = val
       this.getList()
     },
-    editRow(row) {
-      debugger
+    editRow(id) {
+      this.isEdit = true
+      this.id = id
+      this.dialogVisible = true
     },
     deleteRow(id) {
       debugger
+    },
+    handleCreate() {
+      debugger
+    },
+    closeFun(result) {
+      this.dialogVisible = false
+      this.getList()
     }
   }
 }

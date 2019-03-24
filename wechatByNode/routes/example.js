@@ -8,7 +8,7 @@ const router = express.Router()
 router.get('/list',CheckUser.checkUser,Example.list);
 router.get('/detail/:proxy',CheckUser.checkUser,Example.show);
 router.post('/create',CheckUser.checkUser,Example.create);
-router.put('/update',CheckUser.checkUser,Example.list);
+router.put('/update',CheckUser.checkUser,Example.update);
 router.delete('/delete',CheckUser.checkUser,Example.delete);
 
 // router.get('/info', Admin.getAdminInfo);

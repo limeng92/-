@@ -8,19 +8,19 @@ export function fetchList(query) {
   })
 }
 
-export function fetchArticle(id) {
+export function fetchExample(id) {
   return request({
-    url: '/example/detail',
+    url: '/example/detail/' + id,
     method: 'get',
     params: { id }
   })
 }
 
-export function fetchPv(pv) {
+export function updateExample(data) {
   return request({
     url: '/example/update',
-    method: 'get',
-    params: { pv }
+    method: 'put',
+    params: { data }
   })
 }
 
