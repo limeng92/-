@@ -82,12 +82,16 @@ export default {
       return this.isEdit ? '修改成功！' : '创建成功！'
     }
   },
-  created() {
-    if (this.isEdit) {
-      const id = this.id
-      this.fetchData(id)
-    } else {
-      this.postForm = Object.assign({}, defaultForm)
+  watch: {
+    id: {
+      handler(newVal, oldVal) {
+        if (this.isEdit) {
+          const id = this.id
+          this.fetchData(id)
+        } else {
+          this.postForm = Object.assign({}, defaultForm)
+        }
+      }
     }
   },
   methods: {
