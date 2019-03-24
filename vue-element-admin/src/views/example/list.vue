@@ -1,14 +1,9 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-add" @click="handleCreate">{{ $t('table.add') }}</el-button>
+      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-add" @click="handleCreate">新建</el-button>
     </div>
     <el-table v-loading="listLoading" :data="list" border fit highlight-current-row style="width: 100%">
-      <el-table-column align="center" label="ID" width="80">
-        <template slot-scope="scope">
-          <span>{{ scope.row.id }}</span>
-        </template>
-      </el-table-column>
 
       <el-table-column align="center" label="姓名">
         <template slot-scope="scope">
@@ -64,6 +59,7 @@
 import { fetchList } from '@/api/example'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import detailForm from './detailForm'
+import { deleteExample } from '@/api/example'
 
 export default {
   name: 'ArticleList',
@@ -88,7 +84,7 @@ export default {
       id: '',
       listQuery: {
         page: 1,
-        limit: 20
+        limit: 8
       }
     }
   },
@@ -118,10 +114,33 @@ export default {
       this.dialogVisible = true
     },
     deleteRow(id) {
-      debugger
+      this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        deleteExample(id).then(response => {
+          this.$notify({
+            title: '删除成功',
+            message: this.massage,
+            type: 'success',
+            duration: 2000
+          })
+          this.getList()
+        }).catch(err => {
+          console.log(err)
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
     },
     handleCreate() {
-      debugger
+      this.isEdit = false
+      this.id = ''
+      this.dialogVisible = true
     },
     closeFun(result) {
       this.dialogVisible = false

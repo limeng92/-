@@ -28,8 +28,8 @@ class ExampleService {
     }
     async create (req, res, next) {
         try {
-            let data = req.body.data
-        
+            let data = req.body
+            console.log('>>>>data',data)
             let result = db.sequelize.transaction(function(t){
                 return Example.create(data,{
                     transaction:t
@@ -75,8 +75,9 @@ class ExampleService {
     }
     async delete (req, res, next) {
         try {
-            let data = req.body.data
-            let result = await destroy({where: data.where}).then((result)=> {
+            let data = req.query
+            let where = {id: data.id}
+            let result = await Example.destroy({where: where}).then((result)=> {
                 return result
             }).catch((err)=>{
                 throw err

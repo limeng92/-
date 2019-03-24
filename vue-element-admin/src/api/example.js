@@ -24,7 +24,7 @@ export function updateExample(data) {
   })
 }
 
-export function createArticle(data) {
+export function createExample(data) {
   return request({
     url: '/example/create',
     method: 'post',
@@ -32,10 +32,10 @@ export function createArticle(data) {
   })
 }
 
-export function updateArticle(data) {
+export function deleteExample(id) {
   return request({
-    url: '/example/update',
-    method: 'post',
-    data
+    url: '/example/delete',
+    method: 'delete',
+    params: { id }
   })
 }

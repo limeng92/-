@@ -56,8 +56,12 @@ class ExampleController {
     }
     async delete (req, res, next) {
         try {
-            let result = await exampleService.delete(req, res, next)
-            res.send(result)  
+            await exampleService.delete(req, res, next)
+            res.send({
+                status: 0,
+                type: '',
+                message: '删除成功'
+            })  
         }catch (err) {
             console.log(err)
             res.status(500).send({

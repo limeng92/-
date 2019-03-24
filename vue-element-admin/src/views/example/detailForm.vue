@@ -1,24 +1,24 @@
 <template>
   <div class="createPost-container">
     <el-form ref="postForm" :model="postForm" :rules="rules" label-position="left" class="form-container">
-      <el-form-item label="姓名">
+      <el-form-item label="姓名" prop="name">
         <el-input v-model="postForm.name"/>
       </el-form-item>
-      <el-form-item label="年龄">
+      <el-form-item label="年龄" prop="age">
         <el-input v-model="postForm.age"/>
       </el-form-item>
-      <el-form-item label="公司">
+      <el-form-item label="公司" prop="company">
         <el-input v-model="postForm.company"/>
       </el-form-item>
-      <el-form-item label="身高">
+      <el-form-item label="身高" prop="height">
         <el-input v-model="postForm.height"/>
       </el-form-item>
-      <el-form-item label="体重">
+      <el-form-item label="体重" prop="weight">
         <el-input v-model="postForm.weight"/>
       </el-form-item>
       <el-form-item>
-        <el-button :loading="loading" type="primary" @click="submitForm">立即创建</el-button>
-        <el-button>取消</el-button>
+        <el-button :loading="loading" type="primary" @click="submitForm">提交</el-button>
+        <el-button @click="resetForm">取消</el-button>
       </el-form-item>
     </el-form>
 
@@ -26,8 +26,7 @@
 </template>
 
 <script>
-import { fetchExample, updateExample } from '@/api/example'
-import { userSearch } from '@/api/remoteSearch'
+import { fetchExample, updateExample, createExample } from '@/api/example'
 
 const defaultForm = {
   name: '',
@@ -35,6 +34,11 @@ const defaultForm = {
   company: '',
   height: '',
   weight: ''
+}
+
+const submitFun = {
+  '0': createExample,
+  '1': updateExample
 }
 
 export default {
@@ -73,6 +77,11 @@ export default {
       tempRoute: {}
     }
   },
+  computed: {
+    massage() {
+      return this.isEdit ? '修改成功！' : '创建成功！'
+    }
+  },
   created() {
     if (this.isEdit) {
       const id = this.id
@@ -94,16 +103,18 @@ export default {
       this.$refs.postForm.validate(valid => {
         if (valid) {
           this.loading = true
-          updateExample(this.postForm).then(response => {
+          submitFun[Number(this.isEdit)](this.postForm).then(response => {
             this.$notify({
               title: '成功',
-              message: '修改成功',
+              message: this.massage,
               type: 'success',
               duration: 2000
             })
             this.loading = false
+            this.$refs['postForm'].resetFields()
             this.$emit('closeFun', response)
           }).catch(err => {
+            this.loading = false
             console.log(err)
           })
         } else {
@@ -112,11 +123,8 @@ export default {
         }
       })
     },
-    getRemoteUserList(query) {
-      userSearch(query).then(response => {
-        if (!response.data.items) return
-        this.userListOptions = response.data.items.map(v => v.name)
-      })
+    resetForm() {
+      this.$refs['postForm'].resetFields()
     }
   }
 }
