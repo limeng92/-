@@ -50,7 +50,7 @@
       :visible.sync="dialogVisible"
       :title="isEdit?'查看':'创建'"
       width="50%">
-      <detail-form :id="id" :is-edit="isEdit" @closeFun="closeFun"/>
+      <detail-form ref="detailForm" :id="id" :is-edit="isEdit" @closeFun="closeFun"/>
     </el-dialog>
   </div>
 </template>
@@ -112,6 +112,7 @@ export default {
       this.isEdit = true
       this.id = id
       this.dialogVisible = true
+      this.$refs.detailForm.getDetail()
     },
     deleteRow(id) {
       this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
