@@ -9,7 +9,7 @@ class checkUserToken {
         let secretOrPrivateKey="suiyi"; // 这是加密的key（密钥）
 
         if (!token) {
-            res.send({
+            res.status(401).send({
                 status: -1,
                 message: 'Permission Denied!',
             })
@@ -19,7 +19,7 @@ class checkUserToken {
             //验证token是否有效
             jwt.verify(token,secretOrPrivateKey, function (err, decode) {
                 if (err) {  //  时间失效的时候/ 伪造的token          
-                    res.send({
+                    res.status(403).send({
                         status: -1,
                         message: 'token失效或者token验证失败!',
                     }) 
@@ -29,7 +29,7 @@ class checkUserToken {
                 }
             })
         } catch (err) {
-            res.send({
+            res.status(500).send({
                 status: -1,
                 message: 'token失效或者token验证失败!',
             }) 
