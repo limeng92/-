@@ -82,18 +82,6 @@ export default {
       return this.isEdit ? '修改成功！' : '创建成功！'
     }
   },
-  watch: {
-    id: {
-      handler(newVal, oldVal) {
-        if (this.isEdit) {
-          const id = this.id
-          this.fetchData(id)
-        } else {
-          this.postForm = Object.assign({}, defaultForm)
-        }
-      }
-    }
-  },
   methods: {
     fetchData(id) {
       fetchExample(id).then(response => {
@@ -101,6 +89,14 @@ export default {
       }).catch(err => {
         console.log(err)
       })
+    },
+    getDetail() {
+      if (this.isEdit) {
+        const id = this.id
+        this.fetchData(id)
+      } else {
+        this.postForm = Object.assign({}, defaultForm)
+      }
     },
     submitForm() {
       console.log(this.postForm)
