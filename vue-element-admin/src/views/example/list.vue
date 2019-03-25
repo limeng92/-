@@ -112,7 +112,9 @@ export default {
       this.isEdit = true
       this.id = id
       this.dialogVisible = true
-      this.$refs.detailForm.getDetail()
+      this.$nextTick(function() {
+        this.$refs.detailForm.getDetail()
+      })
     },
     deleteRow(id) {
       this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
