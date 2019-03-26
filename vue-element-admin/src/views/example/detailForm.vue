@@ -26,15 +26,7 @@
 </template>
 
 <script>
-import { fetchExample, updateExample, createExample } from '@/api/example'
-
-const defaultForm = {
-  name: '',
-  age: '',
-  company: '',
-  height: '',
-  weight: ''
-}
+import { updateExample, createExample } from '@/api/example'
 
 const submitFun = {
   '0': createExample,
@@ -45,18 +37,17 @@ export default {
   name: 'ArticleDetail',
   components: {},
   props: {
-    id: {
-      type: String,
-      default: ''
-    },
     isEdit: {
       type: Boolean,
       default: false
+    },
+    postForm: {
+      type: Object,
+      default: () => ({})
     }
   },
   data() {
     return {
-      postForm: Object.assign({}, defaultForm),
       loading: false,
       userListOptions: [],
       rules: {
@@ -83,21 +74,6 @@ export default {
     }
   },
   methods: {
-    fetchData(id) {
-      fetchExample(id).then(response => {
-        this.postForm = response.data
-      }).catch(err => {
-        console.log(err)
-      })
-    },
-    getDetail() {
-      if (this.isEdit) {
-        const id = this.id
-        this.fetchData(id)
-      } else {
-        this.postForm = Object.assign({}, defaultForm)
-      }
-    },
     submitForm() {
       console.log(this.postForm)
       this.$refs.postForm.validate(valid => {
