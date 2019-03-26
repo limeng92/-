@@ -50,7 +50,7 @@
       :visible.sync="dialogVisible"
       :title="isEdit?'查看':'创建'"
       width="50%">
-      <detail-form ref="detailForm" :id="id" :is-edit="isEdit" @closeFun="closeFun"/>
+      <detail-form ref="detailForm" :post-form="postForm" :is-edit="isEdit" @closeFun="closeFun"/>
     </el-dialog>
   </div>
 </template>
@@ -59,7 +59,7 @@
 import { fetchList } from '@/api/example'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import detailForm from './detailForm'
-import { deleteExample } from '@/api/example'
+import { fetchExample, deleteExample } from '@/api/example'
 
 export default {
   name: 'ArticleList',
@@ -81,7 +81,7 @@ export default {
       listLoading: true,
       dialogVisible: false,
       isEdit: false,
-      id: '',
+      postForm: {},
       listQuery: {
         page: 1,
         limit: 8
@@ -108,13 +108,10 @@ export default {
       this.listQuery.page = val
       this.getList()
     },
-    editRow(id) {
+    async editRow(id) {
       this.isEdit = true
-      this.id = id
+      await this.fetchData(id)
       this.dialogVisible = true
-      this.$nextTick(function() {
-        this.$refs.detailForm.getDetail()
-      })
     },
     deleteRow(id) {
       this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
@@ -143,11 +140,19 @@ export default {
     handleCreate() {
       this.isEdit = false
       this.id = ''
+      this.postForm = {}
       this.dialogVisible = true
     },
     closeFun(result) {
       this.dialogVisible = false
       this.getList()
+    },
+    fetchData(id) {
+      fetchExample(id).then(response => {
+        this.postForm = response.data
+      }).catch(err => {
+        console.log(err)
+      })
     }
   }
 }
