@@ -7,4 +7,5 @@ var db = {
 };
 db.Test = db.sequelize.import('../models/test.js');
 db.Example = db.sequelize.import('../models/example.js');
+db.auth = db.sequelize.import('../models/auth.js');
 module.exports = db;

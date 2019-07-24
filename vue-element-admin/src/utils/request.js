@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { MsesaegBox } from 'element-ui'
+import { Message, MessageBox } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 
@@ -63,12 +63,12 @@ service.interceptors.response.use(
   //   }
   // },
   error => {
-    console.log('err' + error) // for debug
+    console.log(error.response.status) // for debug
     if (error.response) {
       if (error.response.status === 401 || error.response.status === 403) {
       // 请自行在引入 MessageBox
       // import { Message, MsesageBox } from 'element-ui'
-        MsesaegBox.confirm('你已被登出，可以取消继续留在该页面，或者重新登录', '确定登出', {
+        MessageBox.confirm('你已被登出，可以取消继续留在该页面，或者重新登录', '确定登出', {
           confirmButtonText: '重新登录',
           cancelButtonText: '取消',
           type: 'warning'
@@ -79,11 +79,11 @@ service.interceptors.response.use(
         })
       }
     }
-    // Message({
-    //   message: error.message,
-    //   type: 'error',
-    //   duration: 5 * 1000
-    // })
+    Message({
+      message: error.message,
+      type: 'error',
+      duration: 5 * 1000
+    })
     return Promise.reject(error)
   }
 )

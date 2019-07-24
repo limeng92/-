@@ -9,6 +9,7 @@ import Layout from '@/views/layout/Layout'
 /* Router Modules */
 import exampleRouter from './modules/example'
 
+import systemRouter from './modules/system'
 /** note: sub-menu only appear when children.length>=1
  *  detail see  https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
  **/
@@ -69,6 +70,6 @@ export default new Router({
 export const asyncRouterMap = [
   /** When your routing table is too long, you can split it into small modules**/
   exampleRouter,
-
+  systemRouter,
   { path: '*', redirect: '/404', hidden: true }
 ]
